@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="ru-RU">
+
+  <info>
+    <title>GOST R 7.0.5-2008 (минимальный: только автор, название, город, год)</title>
+    <title-short>GOST R 7.0.5-2008 (минимальный)</title-short>
+    <id>http://example.org/styles/gost-minimal</id>
+    <link href="http://protect.gost.ru/document.aspx?control=7&amp;id=173511" rel="documentation"/>
+    <author>
+      <name>Ваша Имя</name>
+    </author>
+    <category citation-format="numeric"/>
+    <category field="generic-base"/>
+    <summary>Минимальный ГОСТ-2008: в списке литературы выводятся только номер, автор, название, город и год; сначала идут русские (langid=russian), затем иностранные (langid=english), каждая группа — в алфавитном порядке.</summary>
+    <updated>2025-06-04T00:00:00+00:00</updated>
+    <rights>Этот файл открыт для свободного использования.</rights>
+  </info>
+
+  <!-- локализация: русские сокращения -->
+  <locale xml:lang="ru">
+    <terms>
+      <term name="et-al"> [и др.]</term>
+      <term name="page" form="short">с.</term>
+    </terms>
+  </locale>
+
+  <!-- макрос для «первого автора» (для сортировки и вывода) -->
+  <macro name="author-first">
+    <names variable="author">
+      <name initialize-with=". " name-as-sort-order="all" delimiter="; "/>
+      <label form="short" strip-periods="true" prefix=" " suffix="."/>
+    </names>
+  </macro>
+
+  <!-- макрос для «всех авторов» (вывод после номера) -->
+  <macro name="author-all">
+    <names variable="author" delimiter=", ">
+      <name et-al-min="3" et-al-use-first="2" initialize-with=". "/>
+    </names>
+  </macro>
+
+  <!-- макрос для «названия» -->
+  <macro name="title">
+    <text variable="title"/>
+  </macro>
+
+  <!-- макрос для «города» (publisher-place) -->
+  <macro name="place">
+    <text variable="publisher-place"/>
+  </macro>
+
+  <!-- макрос для «года» (issued.year) -->
+  <macro name="year-date">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <!-- макрос для номера цитирования -->
+  <macro name="citation-number">
+    <text variable="citation-number" suffix=". "/>
+  </macro>
+
+  <!-- определение ссылки в тексте -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+      <group prefix=",">
+        <label plural="never" prefix=" " variable="locator" form="short"/>
+        <text variable="locator" form="short" prefix=" "/>
+      </group>
+    </layout>
+  </citation>
+
+  <!-- Библиография -->
+  <bibliography et-al-min="3" et-al-use-first="1">
+    <sort>
+      <!-- Сначала сортируем по langid в порядке descending: russian > english -->
+      <key variable="langid" sort="descending"/>
+      <!-- Дальше по фамилии первого автора -->
+      <key macro="author-first"/>
+      <!-- И, наконец, по году издания -->
+      <key variable="issued"/>
+    </sort>
+
+    <layout suffix=".">
+      <!-- 1. Номер ссылки -->
+      <text macro="citation-number"/>
+
+      <!-- 2. Все авторы -->
+      <text macro="author-all" suffix=". "/>
+
+      <!-- 3. Название работы -->
+      <text macro="title" suffix=". "/>
+
+      <!-- 4. Город (publisher-place) -->
+      <text macro="place" suffix=": "/>
+
+      <!-- 5. Год издания -->
+      <text macro="year-date"/>
+
+      <!-- точка в конце уже задана через suffix="." в <layout> -->
+    </layout>
+  </bibliography>
+
+</style>
+

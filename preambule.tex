@@ -1,0 +1,187 @@
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{bussproofs}
+\usepackage{enumitem}
+\usepackage{xcolor} % для выделения цветом
+
+\usepackage{graphicx}
+\usepackage{float}            % для [H]
+\usepackage{tikz}     
+\usepackage{tikz-cd}        % для рисунков
+\usepackage{tabularx}
+\usepackage{array} % для \arraybackslash
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+\usepackage{stmaryrd} 
+\providecommand\nobreakdash{\hbox{-}\nobreak\hskip0pt}
+\allowdisplaybreaks
+
+\usepackage{caption}          % красиво оформляет подписи
+\usepackage{booktabs}         % улучшенная верстка таблиц
+\sloppy
+
+\renewcommand{\footnotesize}{\fontsize{12pt}{11pt}\selectfont}
+
+\usepackage[
+backend=biber,
+style=gost-numeric,		%ext-numeric, можно также 'gost-authoryear'
+language=russian,
+sorting=langnty
+]{biblatex}
+
+\addbibresource{bib/kursach.bib} % путь к твоему .bib файлу
+
+% Разрешаем проверять язык записи (langid)
+\usepackage{etoolbox}
+
+% Для одиночного постнота (например, \cite[12]{key}):
+\DeclareFieldFormat{postnote}{%
+	\iffieldequalstr{langid}{russian}
+	{c.~#1}% если langid = russian → «с. <номер>»
+	{p.~#1}% иначе → «p. <номер>»
+}
+
+% Для множественного постнота (например, \cite[12, 34]{key}):
+\DeclareFieldFormat{multipostnote}{%
+	\iffieldequalstr{langid}{russian}
+	{c.~#1}% «с. 12, 34»
+	{p.~#1}% «p. 12, 34»
+}
+
+
+% ГОСТ сокращения городов
+\DeclareListFormat{location}{%
+	\ifstrequal{#1}{Москва}{М.}%
+	{\ifstrequal{#1}{Санкт-Петербург}{СПб.}%
+		{\ifstrequal{#1}{Ленинград}{Л.}%
+			{\ifstrequal{#1}{Минск}{Мн.}%
+				{\ifstrequal{#1}{Новосибирск}{Новосиб.}%
+					{#1}}}}}%
+}
+
+\newcommand{\mycomma}{\addcomma\space}
+
+% --- BOOK ---
+\DeclareBibliographyDriver{book}{%
+	\printtext{\mkbibemph{\printnames{author}}}%
+	\mycomma
+	\printfield{title}%
+	\mycomma
+	\printlist[location]{location}
+	\mycomma
+	\printfield{year}%
+	\finentry
+}
+
+% Аналогично для остальных драйверов:
+
+\DeclareBibliographyDriver{article}{%
+	\printtext{\mkbibemph{\printnames{author}}}%
+	\mycomma
+	\printfield{title}%
+	\mycomma
+	\printfield{journaltitle}%
+	\mycomma
+	\printlist[location]{location}
+	\mycomma
+	\printfield{year}%
+	\finentry
+}
+
+
+% --- INCOLLECTION ---
+\DeclareBibliographyDriver{incollection}{%
+	\printtext{\mkbibemph{\printnames{author}}}%
+	\mycomma
+	\printfield{title}%
+	\mycomma
+	\printfield{booktitle}%
+	\mycomma
+	\printlist[location]{location}
+	\mycomma
+	\printfield{year}%
+	\finentry
+}
+
+% --- INBOOK ---
+\DeclareBibliographyDriver{inbook}{%
+	\printtext{\mkbibemph{\printnames{author}}}%
+	\mycomma
+	\printfield{title}%
+	\mycomma
+	\printfield{booktitle}%
+	\mycomma
+	\printlist[location]{location}
+	\mycomma
+	\printfield{year}%
+	\finentry
+}
+
+% --- MISC ---
+\DeclareBibliographyDriver{misc}{%
+	\printtext{\mkbibemph{\printnames{author}}}%
+	\mycomma
+	\printfield{title}%
+	\mycomma
+	\printlist[location]{location}
+	\mycomma
+	\printfield{year}%
+	\finentry
+}
+
+% --- INPROCEEDINGS ---
+\DeclareBibliographyDriver{inproceedings}{%
+	\printtext{\mkbibemph{\printnames{author}}}%
+	\mycomma
+	\printfield{title}%
+	\mycomma
+	\printfield{booktitle}%
+	\mycomma
+	\printlist[location]{location}
+	\mycomma
+	\printfield{year}%
+	\finentry
+}
+
+\DeclareSortingTemplate{langnty}{
+	% 2.1. Сортируем по langid (строку "russian" < "english")
+	\sort[direction=descending]{
+		\field{langid}
+	}
+	% 2.2. Внутри каждой языковой группы — по автору (editor, translator, sortname)
+	\sort{
+		\field{author}
+		\field{editor}
+		\field{translator}
+		\field{sortname}
+	}
+	% 2.3. Затем — по году (date)
+	\sort{
+		\field{year}
+		\field{date}
+	}
+	% 2.4. И, наконец, по названию (title)
+	\sort{
+		\field{title}
+	}
+}
+
+
+\geometry{
+	a4paper,
+	top=2cm,
+	bottom=2cm,
+	left=3cm,
+	right=1.5cm
+}
+
+\setlength{\parindent}{12.5mm}
+\setlength{\parskip}{0.7em}
+\onehalfspacing
+\newcommand{\Con}{\mathrm{Con}}

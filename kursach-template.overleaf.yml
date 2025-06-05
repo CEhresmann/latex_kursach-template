@@ -1,0 +1,30 @@
+main: main.tex
+name: LaTeX Курсaч шаблон
+description: >
+  Шаблон LaTeX-документа на русском языке с поддержкой ГОСТ-библиографии, TikZ, библиотеки Bussproofs, улучшенной типографики, таблиц и встроенного шаблона титульного листа.
+  
+  Подходит для курсовых и дипломных работ.
+
+files:
+  - main.tex
+  - preamble.tex
+  - title.tex
+  - content/intro.tex
+  - bib/kursach.bib
+  - images/cat.png
+
+tags:
+  - russian
+  - biblatex
+  - biber
+  - gost
+  - tikz
+  - kursovaya
+  - diploma
+  - latex
+  - overleaf
+
+metadata:
+  compiler: pdflatex
+  biber: true
+
